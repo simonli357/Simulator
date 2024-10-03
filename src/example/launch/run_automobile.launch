@@ -1,0 +1,7 @@
+<launch>
+<arg name="ns"  default="automobile" doc="car namespace"/>
+<arg name="baudrate"  default="19200" doc="car namespace"/>
+
+<node pkg="example" args="--ns $(arg ns) --baudrate $(arg baudrate)" name="serialNODE" output="screen" type="serialNODE.py" required="true">
+</node>
+</launch>

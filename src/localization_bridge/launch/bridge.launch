@@ -1,0 +1,9 @@
+<launch>
+
+  <rosparam command="load" file="$(find localization_bridge)/config/gps_config.yaml" />
+  <arg name="name" default="car1"/>
+  <node pkg="localization_bridge" type="bridge" name="localization_bridge" output="screen"> 
+    <param name="name" value="$(arg name)"/>
+  </node>
+
+</launch>

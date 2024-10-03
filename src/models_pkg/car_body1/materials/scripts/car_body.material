@@ -1,0 +1,21 @@
+material CarBody/Image
+{
+  technique
+  {
+    pass
+    {
+      // Changed diffuse color to black
+      diffuse 0.0 0.0 0.0 1.0
+      specular 1.0 1.0 1.0 10000.0
+      emissive 0.0 0.0 0.0 1.000000 // Optionally adjust emissive to 0 for true black, no self-illumination
+      
+      cull_hardware none
+      cull_software none
+      texture_unit
+      {
+        texture carBody_text.png
+        scale 1. 1.
+      } 
+    }
+  }
+}

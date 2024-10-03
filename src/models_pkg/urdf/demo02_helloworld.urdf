@@ -1,0 +1,27 @@
+<robot name = "alice">
+    <link name="base_link" >
+        <visual>
+            <geometry>
+                <box size="0.5 0.3 0.1"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <material name="aColor">
+                <color rgba="1 1 1 0.75"/>
+            </material>
+        </visual>
+        <collision>
+            <geometry>
+                <box size="0.5 0.3 0.1"/>
+            </geometry>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </collision>
+        <inertial>
+            <origin xyz="0 0 0"/>
+            <mass value="2" />
+            <inertia ixx="1" ixy="0" ixz="0" iyy="0" iyz="1" izz="1"/>
+        </inertial>
+    </link>
+    <gazebo reference="base_link">
+        <material>Gazebo/Red</material>
+    </gazebo>
+</robot>

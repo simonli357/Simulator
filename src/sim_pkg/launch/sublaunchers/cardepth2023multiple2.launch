@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+  <launch>
+ 
+    <!-- <rosparam command="load" file="$(find mpc)/config/gps_config.yaml" /> -->
+      <!-- <node
+        name  = "automobile"
+        pkg   = "gazebo_ros"
+        type  = "spawn_model"
+        args  = "-file $(find models_pkg)/rcCar_assembly_depth/model.sdf -model automobile -sdf -x 11.71 -y 1.896 -z 0.032939 -Y 0.00">
+      </node> -->
+      <node
+        name  = "car1"
+        pkg   = "gazebo_ros"
+        type  = "spawn_model"
+        args  = "-file $(find models_pkg)/rcCar_assembly1/model.sdf -model car1 -sdf -x 11.71 -y 1.896 -z 0.032939 -Y 0.00">
+        <!-- args  = "-file $(find models_pkg)/rcCar_assembly1/model.sdf -model car1 -sdf -x 0.492 -y 2.343 -z 0.032939 -Y -1.57"> -->
+      </node>
+    <!-- <group ns="car2">
+      <arg name="namespace" value="car2"/>
+      <node
+        name  = "car2"
+        pkg   = "gazebo_ros"
+        type  = "spawn_model"
+        args  = "-file $(find models_pkg)/rcCar_assembly2/model.sdf -model car2 -sdf -x 7.71 -y 1.896 -z 0.032939 -Y 0.00">
+      </node>
+    </group> -->
+  </launch>

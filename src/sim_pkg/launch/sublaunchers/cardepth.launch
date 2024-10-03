@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+  <launch>
+ 
+    <rosparam command="load" file="$(find car_plugin)/config/gps_config.yaml" />
+    <node
+          name  = "automobile"
+    	    pkg   = "gazebo_ros"
+    	    type  = "spawn_model"
+	    args  = "-file $(find models_pkg)/rcCar_assembly_depth/model.sdf -model automobile -sdf -x 0.82 -y -14.91 -z 0.032939 -Y 1.570796"/>
+	    <!-- args  = "-file $(find models_pkg)/rcCar_assembly_depth/model.sdf -model automobile -sdf -x 11.71 -y 3.11 -z 0.032939 -Y 0.00"/> -->
+ 
+  </launch>
