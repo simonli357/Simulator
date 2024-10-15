@@ -26,7 +26,6 @@ find_package(catkin REQUIRED COMPONENTS
 
 
 catkin_package(
- INCLUDE_DIRS include
  CATKIN_DEPENDS message_runtime
 #  LIBRARIES mpc
 #  CATKIN_DEPENDS geometry_msgs roscpp rospy sensor_msgs std_msgs tf2 tf2_geometry_msgs tf2_ros
@@ -39,7 +38,6 @@ catkin_package(
 
 include_directories(
   ${catkin_INCLUDE_DIRS} 
-  include 
 )
 
 add_executable(bridge
