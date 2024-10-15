@@ -11,8 +11,8 @@
     <arg name="gui"          value="true"/>
   </include>
  
+  <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg spawn_signs.launch"      name="signs"       output="screen"/>
   <!-- <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg cardepth2023.launch" name="car" output="screen"/> -->
   <node pkg="sim_pkg" type="delay2.sh" args="5 sim_pkg cardepth2023multiple2.launch" name="c1" output="screen"/>
 
-  <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg spawn_signs.launch"      name="signs"       output="screen"/>
   </launch>
