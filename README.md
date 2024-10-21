@@ -1,127 +1,51 @@
 # Simulator 
 
+## Description
+Simulation Environment for the Bosch Future Mobility Challenge: https://boschfuturemobility.com/
 Starter code from https://github.com/ECC-BFMC/Simulator
 
-There are multiple packages/repos in our organisation for the car's functions that can be added in the repo for testing/development.
-(ex:Advanced-Lane-Detection, Control...)
+## Structure
 
-Build process:
+- **example**: provide some example scripts on how to interact with the simulator.
+- **models_pkg**: contains sdf files describing the car components and other objects in the simulator.
+- **realsense_ros_gazebo**: provides plugin to simulate the realsense D435i camera.
+- **plugins_pkgs**: code to simulate the components of the car (gps, motor and servo commands...)
+- **sim_pkg**: provides launch files to launch the simulation world.
+- **traffic_light_pkg**: manages the traffic lights 
+- **utils**: provides msg and srv files needed in other pkgs.
+- **localization_bridge**: simulate the gps system in the competition with a delay of 1 second and uniform noise of 0.2.
 
-1- Clone the repo and the other packages you need to use.
+## Dependencies
 
-2- Add symbolic link to the packages in src with:
+### ROS
+#### Installation:
+http://www.autolabor.com.cn/book/ROSTutorials/chapter1/12-roskai-fa-gong-ju-an-zhuang/124-an-zhuang-ros.html
 
-```sh
-ln -s {path to package}/{package name}
-```
+## Build
 
-ex:
+1. Open a terminal and clone the repository
+    ```bash
+    cd
+    git clone https://github.com/slsecrets357/Simulator.git
+    ```
 
-```sh
-ln -s /home/antoinedeng/Desktop/BFMC_Simulator_packages/nav_pkg
-```
+2. Build the packages
+    ```bash
+    catkin_make --pkg utils
+    catkin_make
+    ```
 
-(When you add a symbolic link add it in the .gitignore as well)
+3. (only after building/catkin_make) ```gedit devel/setup.bash``` and add these 2 lines to the file with your Simulator path:
+    ```sh
+    export GAZEBO_MODEL_PATH="/home/{YOUR_USER}/Documents/Simulator/src/models_pkg:$GAZEBO_MODEL_PATH"
+    export ROS_PACKAGE_PATH="/home/{YOUR_USER}/Documents/Simulator/src:$ROS_PACKAGE_PATH"
+    ```
 
-3-Build the repo with 
-
-```sh
-catkin_make --pkg utils
-catkin_make
-```
-
-(If there's an error about opencv2 such as ```<opencv2/imgproc.hpp>```, open /usr/include/opencv4 and move the opencv2 folder inside /usr/include/opencv4 to /usr/include)
-
-## Requirements install:
-
-1. open a terminal and cd to Simulator/src
-
-2. ```pip install -r requirements.txt```
-
-3. Other requirements: 
-
-- openCV: https://docs.opencv.org/4.x/d7/d9f/tutorial_linux_install.html
-
-- ncnn: https://github.com/Tencent/ncnn/wiki/how-to-build#build-for-linux
-
-- YoloFastestV2: https://github.com/xs2445/Yolo-FastestV2-NCNN-RasPi4B
-
-- raspicam: https://github.com/cedricve/raspicam
-
-## Usage:
-
-1. open a terminal and cd to Simulator
-
-2. (only after building/catkin_make) ```gedit devel/setup.bash``` and add these 2 lines to the file with your Simulator path:
-
-```sh
-export GAZEBO_MODEL_PATH="/home/{YOUR_USER}/Documents/Simulator/src/models_pkg:$GAZEBO_MODEL_PATH"
-export ROS_PACKAGE_PATH="/home/{YOUR_USER}/Documents/Simulator/src:$ROS_PACKAGE_PATH"
-```
-
-3. ```source devel/setup.bash```
-
-## Run simulator:
-
-```roslaunch sim_pkg map_with_car.launch```
-(you can replace "map_with_car.launch" with different launch files in sim_pkg/launch and/or modify them to add objects in the simulator)
-
-## Run controller or function nodes:
-
-open new terminal with "Usage" (cd to Simulator and ```source devel/setup.bash```)
-
-All controller nodes: ```roslaunch control car_control.launch``` (you can edit the launch file to add/remove ros nodes)
-
-Any other functions: ```rosrun control *.py``` (any python file in control/scripts or any c++ files in control/src without .cpp)
-
-(ex: ```rosrun control lane.py```
-ex: ```rosrun control lane```)
-
-## Advanced stuff:
-
-```car_control.launch``` file arguments:
-
-```xml
-<arg name="show_sign"  default="False" doc="display sign detection window (True or False)"/>
-<arg name="show_lane"  default="False" doc="display lane detection window (True or False)"/>
-<arg name="print_sign"  default="False" doc="print sign detection (True or False)"/>
-<arg name="print_lane"  default="False" doc="print lane detection (True or False)"/>
-<!-- <arg name="method"  default="histogram" doc="method for lane detection (histogram or houghlines)"/> -->
-<arg name="simulation"  default="True" doc="Simulation mode (True or False)"/>
-<arg name="path"  default="/paths/path.json" doc="the relative json file path to the planned path"/>
-<arg name="custom"  default="False" doc="user input map (True or False)"/>
-```
-
-(add them by adding ```(arg name):=(arg value)``` after ```roslaunch control car_control.launch```)
-
-ex: ```roslaunch control car_control.launch show_sign:=True path:=/paths/path1.json```
-
-## Files structures in src:
-
-control: our controller package
-
-- launch: launch files for controller function
-
-- models: yolo models for object detection
-
-- msg: custom ros messages used by controller functions
-
-- scripts: controller functions in python
-
-- src: controller functions in c++
-
-- srv: custom ros services used by controller functions
-
-example: given demo code
-- its src has control.py and camera.py to demo keyboard control and camera
-
-models_pkg: sdf models used in the simulator
-
-plugins_pkg: code to simulate the components of the car (gps, motor and servo commands...)
-
-sim_pkg: contains simulator worlds and launch files for them
-
-traffic_light_pkg: idk
-
-utils: custom ros messages and services
+## Usage
+1. Start the gazebo simulation:
+    ```bash
+    source devel/setup.bash
+    roslaunch sim_pkgs map2025objects.launch
+    ```
+2. To modify the objects you want to spawn and their locations, modify the spawn_signs.launch file in sim_pkg
 
