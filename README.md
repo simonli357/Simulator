@@ -1,6 +1,4 @@
 # Simulator 
-
-## Description
 Simulation Environment for the Bosch Future Mobility Challenge: https://boschfuturemobility.com/
 Starter code from https://github.com/ECC-BFMC/Simulator
 
