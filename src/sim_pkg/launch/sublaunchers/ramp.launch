@@ -5,5 +5,5 @@
     name  = "RAMP"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/ramp/model.sdf -sdf -model RAMP -x 0.651761 -y -4.561203 -z 0.0 -R 0 -P 0 -Y 1.569651"/>  
+    args  = "-file $(find models_pkg)/ramp/model.sdf -sdf -model RAMP -x 3.8409 -y 12 -z 0.0 -R 0 -P 0 -Y 0.0"/>  
  </launch>

@@ -44,7 +44,7 @@ class CameraHandler():
         self.bridge = CvBridge()
         self.cv_image = np.zeros((640, 480))
         rospy.init_node('CAMnod', anonymous=True)
-        self.image_sub = rospy.Subscriber("/camera/color/image_raw", Image, self.callback)
+        self.image_sub = rospy.Subscriber("/cam_back/raw", Image, self.callback)
         rospy.spin()
 
     def callback(self, data):

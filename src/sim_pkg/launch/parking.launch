@@ -11,6 +11,8 @@
     <arg name="gui"          value="true"/>
   </include>
   
+  <include file="$(find sim_pkg)/launch/sublaunchers/ramp.launch"></include>
+
   <arg name="x_init" default="0.35"/>
   <param name="x_init" value="$(arg x_init)"/>
   <arg name="y_init" default="2.726"/>

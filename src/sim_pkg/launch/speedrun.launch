@@ -27,5 +27,6 @@
     pkg   = "gazebo_ros"
     type  = "spawn_model"
     args  = "-file $(find models_pkg)/rcCar_assembly1/model.sdf -model car1 -sdf -x $(arg x_init) -y $(arg y_init) -z $(arg z_init) -Y $(arg yaw_init)">
+    <!-- args  = "-file $(find models_pkg)/rcCar_assembly_nus/model.sdf -model car1 -sdf -x $(arg x_init) -y $(arg y_init) -z $(arg z_init) -Y $(arg yaw_init)"> -->
   </node>
   </launch>

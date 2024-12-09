@@ -126,7 +126,7 @@
         </ray>
 
         <plugin name="gazebo_rplidar" filename="libgazebo_ros_laser.so">
-          <topicName>/scan</topicName>
+          <topicName>/car1/scan</topicName>
           <frameName>laser</frameName>
 	  <robotNamespace></robotNamespace>
         </plugin>

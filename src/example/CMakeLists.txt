@@ -15,7 +15,7 @@ find_package(catkin REQUIRED COMPONENTS
 find_package(OpenCV REQUIRED)
 
 ## Find Intel RealSense
-find_package(realsense2 REQUIRED)
+# find_package(realsense2 REQUIRED)
 
 catkin_package(
   LIBRARIES
@@ -37,9 +37,9 @@ add_executable(serial_imu_publisher src/serial_imu_reader.cpp)
 target_link_libraries(serial_imu_publisher ${catkin_LIBRARIES})
 add_executable(serial_write src/serial_write.cpp)
 target_link_libraries(serial_write ${catkin_LIBRARIES})
-add_executable(realsense_read src/realsense_read.cpp)
-target_link_libraries(realsense_read ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
-${realsense2_LIBRARY})
+# add_executable(realsense_read src/realsense_read.cpp)
+# target_link_libraries(realsense_read ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}
+# ${realsense2_LIBRARY})
 
 ## Install
 install(TARGETS serial_imu_publisher
@@ -49,6 +49,6 @@ install(TARGETS serial_imu_publisher
 install(TARGETS serial_write
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
-install(TARGETS realsense_read
-  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-)
+# install(TARGETS realsense_read
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )

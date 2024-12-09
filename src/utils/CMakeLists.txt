@@ -16,6 +16,9 @@ find_package(catkin REQUIRED COMPONENTS
    ImgInfo.msg
    Sensors.msg
    odometry.msg
+   drive_param.msg
+   drive_values.msg
+   pid_input.msg
  )
  
 ## Generate services in the 'srv' folder
