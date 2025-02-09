@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+  <launch>
+  <rosparam command="load" file="$(find localization_bridge)/config/gps_config.yaml" />
+  <include file="$(find localization_bridge)/launch/bridge.launch"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"   value="$(find sim_pkg)/worlds/world2025.world"/>
+    <arg name="paused"       value="false"/>    
+    <arg name="use_sim_time" value="true"/>
+    <arg name="debug"        value="false"/>
+    <arg name="gui"          value="true"/>
+  </include>
+  
+  <include file="$(find sim_pkg)/launch/sublaunchers/ramp.launch"></include>
+
+  <arg name="x_init" default="4.76"/>
+  <param name="x_init" value="$(arg x_init)"/>
+  <arg name="y_init" default="2.706"/>
+  <param name="y_init" value="$(arg y_init)"/>
+  <arg name="z_init" default="0.032939"/>
+  <param name="z_init" value="$(arg z_init)"/>
+  <arg name="yaw_init" default="-1.5708"/>
+  <param name="yaw_init" value="$(arg yaw_init)"/>
+  <param name="path_name" value="run3"/>
+
+  <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg spawn_signs.launch"      name="signs"       output="screen"/>
+  <node
+    name  = "car1"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/rcCar_assembly1/model.sdf -model car1 -sdf -x $(arg x_init) -y $(arg y_init) -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+
+  <node
+    name  = "car008"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_008/model.sdf -model car008 -sdf -x $(arg x_init) -y 0 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car018"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_018/model.sdf -model car018 -sdf -x $(arg x_init) -y 1.5 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_019"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_019/model.sdf -model car019 -sdf -x $(arg x_init) -y 2 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_046"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_046/model.sdf -model car_046 -sdf -x $(arg x_init) -y 2.5 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_144"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_144/model.sdf -model car_144 -sdf -x $(arg x_init) -y 3 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_beetle"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_beetle/model.sdf -model car_beetle -sdf -x $(arg x_init) -y 3.5 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_golf"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_golf/model.sdf -model car_golf -sdf -x $(arg x_init) -y 4 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_lexus"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_lexus/model.sdf -model car_lexus -sdf -x $(arg x_init) -y 4.5 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_opel"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_opel/model.sdf -model car_opel -sdf -x $(arg x_init) -y 5 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_polo"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_polo/model.sdf -model car_polo -sdf -x $(arg x_init) -y 5.5 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  <node
+    name  = "car_volvo"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_volvo/model.sdf -model car_volvo -sdf -x $(arg x_init) -y 6 -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  </launch>

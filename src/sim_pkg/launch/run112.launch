@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+  <launch>
+  <rosparam command="load" file="$(find localization_bridge)/config/gps_config.yaml" />
+  <include file="$(find localization_bridge)/launch/bridge.launch"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"   value="$(find sim_pkg)/worlds/world2025.world"/>
+    <arg name="paused"       value="false"/>    
+    <arg name="use_sim_time" value="true"/>
+    <arg name="debug"        value="false"/>
+    <arg name="gui"          value="true"/>
+  </include>
+  
+  <include file="$(find sim_pkg)/launch/sublaunchers/ramp.launch"></include>
+
+  <arg name="x_init" default="2.52"/>
+  <param name="x_init" value="$(arg x_init)"/>
+  <arg name="y_init" default="1.956"/>
+  <param name="y_init" value="$(arg y_init)"/>
+  <arg name="z_init" default="0.032939"/>
+  <param name="z_init" value="$(arg z_init)"/>
+  <arg name="yaw_init" default="-1.5708"/>
+  <param name="yaw_init" value="$(arg yaw_init)"/>
+  <param name="path_name" value="run3"/>
+
+  <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg spawn_signs.launch"      name="signs"       output="screen"/>
+  <node
+    name  = "car1"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/rcCar_assembly1/model.sdf -model car1 -sdf -x $(arg x_init) -y $(arg y_init) -z $(arg z_init) -Y $(arg yaw_init)">
+  </node>
+  </launch>
