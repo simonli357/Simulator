@@ -110,7 +110,7 @@
           <topicName>/camera/imu</topicName>
           <bodyName>imu_link</bodyName>
           <updateRateHZ>200.0</updateRateHZ>
-          <gaussianNoise>0.02</gaussianNoise>
+          <gaussianNoise>0.0</gaussianNoise>
           <xyzOffset>0 0 0</xyzOffset>
           <rpyOffset>0 0 0</rpyOffset>
           <frameName>realsense</frameName>

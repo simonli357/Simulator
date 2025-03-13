@@ -7,7 +7,7 @@ def steer(f_angle):
     return "#{0}:{1:.2f};;\r\n".format(2, f_angle)
 
 def both(f_velocity,f_angle):
-    return "#{0}:{1:.2f}:{2:.2f};;\r\n".format(8, f_velocity, f_angle)
+    return "#{0}:{1:.2f}:{2:.2f};;\r\n".format(11, f_velocity, f_angle)
 
 def main():
     serial_port = serial.Serial('/dev/ttyACM0', baudrate=115200)
@@ -21,6 +21,7 @@ def main():
     # serial_port.write(steer_msg.encode())
 
     both_msg = both(0.0, 0.0)
+    # both_msg = both(30.0, 20)
     print("both msg sent:", both_msg)
     serial_port.write(both_msg.encode())
 
