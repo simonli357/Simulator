@@ -89,7 +89,7 @@
         </surface>
       </collision>
     </link>
-    <link name='rectangular_support'>
+    <link name='triangular_support'>
       <inertial>
         <mass>0.022</mass>
         <inertia>
@@ -102,7 +102,7 @@
         </inertia>
         <pose frame=''>0 0 0 0 -0 0</pose>
       </inertial>
-      <pose frame=''>-0.0 0.0 0.09894 0 0 3.141592</pose>
+      <pose frame=''>-0.002193 0.000682 0.09894 0 0 3.141592</pose>
       <gravity>1</gravity>
       <self_collide>1</self_collide>
       <kinematic>0</kinematic>
@@ -209,5 +209,6 @@
     </joint>
     <static>1</static>
     <allow_auto_disable>1</allow_auto_disable>
+
   </model>
 </sdf>
