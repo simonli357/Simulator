@@ -50,7 +50,8 @@
     <include>
       <uri>model://camera</uri>
       <!-- centered around camera center -->
-      <pose>-0.11 -0.032 0.217 3.14159 0.0 -0.</pose>
+      <!-- subtract 0.033 from z -->
+      <pose>-0.089 -0.032 0.21465 3.14159 0.0 -0.</pose>
       <!-- <pose>-0.113 0.0 0.2573 0.0 0.0 -0.</pose> -->
       <name>camera1</name>
     </include>

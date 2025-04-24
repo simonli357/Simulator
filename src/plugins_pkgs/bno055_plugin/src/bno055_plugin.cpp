@@ -1,133 +1,142 @@
 #include "bno055_plugin.hpp"
-#include <random> 
+#include <random>
 #include <cmath>
 #define DEBUG false
 
 namespace gazebo
 {
-    namespace bno055
-    {   
-        BNO055::BNO055():ModelPlugin() {
-            prev_linear_velocity = ignition::math::Vector3d(0, 0, 0);  // Assuming you're using Gazebo 9 or newer
-            prev_time = ros::Time::now();
-        }
+  namespace bno055
+  {
+    //— Noise parameters tuned to BNO055 datasheet —
+    constexpr double EXAGGERATION_FACTOR = 5.0; // 5x noise
+    constexpr double ORIENTATION_NOISE_STD = 0.0624524 * M_PI / 180.0 * EXAGGERATION_FACTOR;   // rad  (0.0625° resolution)
+    constexpr double ANGVEL_NOISE_STD      = 0.1002676 * M_PI / 180.0 * EXAGGERATION_FACTOR;   // rad/s (≈0.1°/s RMS)
+    constexpr double LINACC_NOISE_STD      = 0.0104 * EXAGGERATION_FACTOR;    // m/s²  (150 μg/√Hz @~50Hz BW)
+    constexpr double ENCODER_SPEED_NOISE_STD = 0.01047; // m/s (≈1 cm/s RMS)
 
-        void BNO055::Load(physics::ModelPtr model_ptr, sdf::ElementPtr sdf_ptr)
-        {
-            nh = boost::make_shared<ros::NodeHandle>();	
-            timer = nh->createTimer(ros::Duration(0.02), std::bind(&BNO055::OnUpdate, this));
-	    	
-      			// Save a pointer to the model for later use
-      			this->m_model = model_ptr;
+    constexpr double ORIENTATION_NOISE_VAR = ORIENTATION_NOISE_STD * ORIENTATION_NOISE_STD;
+    constexpr double ANGVEL_NOISE_VAR      = ANGVEL_NOISE_STD      * ANGVEL_NOISE_STD;
+    constexpr double LINACC_NOISE_VAR      = LINACC_NOISE_STD      * LINACC_NOISE_STD;
+    constexpr double ENCODER_SPEED_NOISE_VAR = ENCODER_SPEED_NOISE_STD * ENCODER_SPEED_NOISE_STD;
 
-            std::string namespace_ = "";
-            if (sdf_ptr->HasElement("rosTopicNamespace"))
-            {
-                namespace_ = sdf_ptr->Get<std::string>("rosTopicNamespace");
-            }
 
-            if (!namespace_.empty() && namespace_.front() != '/')
-            {
-                namespace_ = "/" + namespace_;
-            }
-            ROS_INFO_STREAM("imu Namespace: " << namespace_);
-          	// Create topic name        	
-          	std::string topic_name = namespace_ + "/IMU";
-	        
+    BNO055::BNO055(): ModelPlugin()
+    {
+      prev_linear_velocity = ignition::math::Vector3d(0,0,0);
+      prev_time            = ros::Time::now();
+    }
 
-            // Initialize ros, if it has not already bee initialized.
-      			if (!ros::isInitialized())
-      			{
-        			  int argc = 0;
-        			  char **argv = NULL;
-        			  ros::init(argc, argv, "gazebo_client_bno", ros::init_options::NoSigintHandler);
-      			}
+    void BNO055::Load(physics::ModelPtr model_ptr, sdf::ElementPtr sdf_ptr)
+    {
+      this->m_model = model_ptr;
 
-            this->m_ros_node.reset(new ::ros::NodeHandle("/bnoNODEvirt"));
-          	this->m_pubBNO = this->m_ros_node->advertise<utils::IMU>(topic_name, 2);
-            this->m_pubIMU = this->m_ros_node->advertise<sensor_msgs::Imu>(namespace_ + "/imu", 2);
-            // this->m_pubEncoder = this->m_ros_node->advertise<utils::encoder>(namespace_ + "/encoder", 2);
+      // ROS init & publishers
+      if (!ros::isInitialized()) {
+        int argc = 0; char **argv = nullptr;
+        ros::init(argc, argv, "gazebo_client_bno",
+                  ros::init_options::NoSigintHandler);
+      }
+      this->m_ros_node.reset(new ros::NodeHandle("/bnoNODEvirt"));
 
-            if(DEBUG)
-            {
-                std::cerr << "\n\n";
-                ROS_INFO_STREAM("====================================================================");
-                ROS_INFO_STREAM("[bno055_plugin] attached to: " << this->m_model->GetName());
-                ROS_INFO_STREAM("[bno055_plugin] publish to: "  << topic_name);
-                ROS_INFO_STREAM("[bno055_plugin] Usefull data: linear z, angular x, angular y, angular z");
-                ROS_INFO_STREAM("====================================================================");
-            }
-        }
+      std::string ns = "";
+      if (sdf_ptr->HasElement("rosTopicNamespace"))
+        ns = sdf_ptr->Get<std::string>("rosTopicNamespace");
+      if (!ns.empty() && ns.front() != '/') ns = "/" + ns;
 
-        // Publish the updated values
-        void BNO055::OnUpdate()
-        {        
-            this->m_bno055_pose.header.stamp = ros::Time::now();
-            this->m_bno055_pose.header.frame_id = "bno055";
-           	this->m_bno055_pose.roll = this->m_model->RelativePose().Rot().Roll();
-		        this->m_bno055_pose.pitch = this->m_model->RelativePose().Rot().Pitch();
-           	this->m_bno055_pose.yaw = this->m_model->RelativePose().Rot().Yaw();
-            this->m_pubBNO.publish(this->m_bno055_pose);
+      ROS_INFO_STREAM("imu Namespace: " << ns);
+      this->m_pubBNO = this->m_ros_node->advertise<utils::IMU>(ns + "/IMU", 2);
+      this->m_pubIMU = this->m_ros_node->advertise<sensor_msgs::Imu>(ns + "/imu", 2);
+      this->m_pubEncoder = this->m_ros_node->advertise<utils::encoder>(ns + "/encoder", 2);
 
-            std::default_random_engine generator;
-            std::normal_distribution<double> distribution(0.0, 1.0);  // mean=0, standard deviation=1
+      // Schedule updates at 50 Hz (20 ms)
+      double updateRate = 10.0;
+      nh    = boost::make_shared<ros::NodeHandle>();
+      timer = nh->createTimer(ros::Duration(1.0/updateRate),
+                              std::bind(&BNO055::OnUpdate, this));
+    }
 
-            this->m_imu_msg.header.stamp = ros::Time::now();
-            this->m_imu_msg.header.frame_id = "chassis";
+    void BNO055::OnUpdate()
+    {
+      // 1) Publish raw BNO orientation (roll,pitch,yaw)
+      m_bno055_pose.header.stamp    = ros::Time::now();
+      m_bno055_pose.header.frame_id = "bno055";
+      auto rot = m_model->RelativePose().Rot();
+      m_bno055_pose.roll  = rot.Roll();
+      m_bno055_pose.pitch = rot.Pitch();
+      m_bno055_pose.yaw   = rot.Yaw();
+      m_pubBNO.publish(m_bno055_pose);
 
-            // orientation
-            this->m_imu_msg.orientation.x = this->m_model->RelativePose().Rot().X() ;//+ 0.05 * distribution(generator);  // Added Gaussian noise
-            this->m_imu_msg.orientation.y = this->m_model->RelativePose().Rot().Y() ;//+ 0.05 * distribution(generator);
-            this->m_imu_msg.orientation.z = this->m_model->RelativePose().Rot().Z() ;//+ 0.05 * distribution(generator);
-            this->m_imu_msg.orientation.w = this->m_model->RelativePose().Rot().W() ;//+ 0.05 * distribution(generator);
-            //variance is 0.01 squared. use power function
-            double orientation_variance = pow(0.01, 2);
-            this->m_imu_msg.orientation_covariance = {orientation_variance, 0, 0, 
-                                                      0, orientation_variance, 0, 
-                                                      0, 0, orientation_variance};
+      // 2) Fill standard Imu message with fused data + noise
+      //    Units: orientation quaternion [unitless], angular velocity [rad/s], linear acc [m/s2]
+      static std::default_random_engine         gen{ std::random_device{}() };
+      std::normal_distribution<double> distO(0.0, ORIENTATION_NOISE_STD),
+                                   distG(0.0, ANGVEL_NOISE_STD),
+                                   distA(0.0, LINACC_NOISE_STD);
 
-            // angular velocity
-            ignition::math::Vector3d angular_velocity = this->m_model->WorldAngularVel();
-            this->m_imu_msg.angular_velocity.x = angular_velocity.X() ;//+ 0.1 * distribution(generator);
-            this->m_imu_msg.angular_velocity.y = angular_velocity.Y() ;//+ 0.1 * distribution(generator);
-            this->m_imu_msg.angular_velocity.z = angular_velocity.Z() ;//+ 0.1 * distribution(generator);
-            double angular_velocity_variance = pow(0.03, 2); 
-            this->m_imu_msg.angular_velocity_covariance = {angular_velocity_variance, 0, 0, 
-                                                           0, angular_velocity_variance, 0, 
-                                                           0, 0, angular_velocity_variance};
+      // Header
+      m_imu_msg.header.stamp    = ros::Time::now();
+      m_imu_msg.header.frame_id = "chassis";
 
-            // linear acceleration
-            ros::Time current_time = ros::Time::now();
-            double dt = (current_time - prev_time).toSec();
-            ignition::math::Vector3d current_linear_velocity = this->m_model->WorldLinearVel();
-            ignition::math::Vector3d linear_acceleration = (current_linear_velocity - prev_linear_velocity) / dt;  // Using ignition::math::Vector3d
-            prev_linear_velocity = current_linear_velocity;
-            prev_time = current_time;
-            this->m_imu_msg.linear_acceleration.x = linear_acceleration.X();
-            this->m_imu_msg.linear_acceleration.y = linear_acceleration.Y();
-            this->m_imu_msg.linear_acceleration.z = linear_acceleration.Z();
-            double linear_acceleration_variance = pow(0.04, 2);
-            this->m_imu_msg.linear_acceleration_covariance = {linear_acceleration_variance, 0, 0, 
-                                                              0, linear_acceleration_variance, 0, 
-                                                              0, 0, linear_acceleration_variance};
-            this->m_pubIMU.publish(this->m_imu_msg);
+      // Orientation (quaternion) + noise
+      auto q = rot;  // using same Rot() for quat (X,Y,Z,W)
+      m_imu_msg.orientation.x = q.X() + distO(gen);
+      m_imu_msg.orientation.y = q.Y() + distO(gen);
+      m_imu_msg.orientation.z = q.Z() + distO(gen);
+      m_imu_msg.orientation.w = q.W() + distO(gen);
+      m_imu_msg.orientation_covariance = {
+        ORIENTATION_NOISE_VAR, 0, 0,
+        0, ORIENTATION_NOISE_VAR, 0,
+        0, 0, ORIENTATION_NOISE_VAR
+      };
 
-            // encoder
-            // this->m_encoder_msg.header.stamp = ros::Time::now();
-            // this->m_encoder_msg.header.frame_id = "encoder";
-            // double x_speed = current_linear_velocity.X();
-            // double y_speed = current_linear_velocity.Y();
-            // double speedYaw = atan2(y_speed, x_speed);
-            // double speed = sqrt(x_speed * x_speed + y_speed * y_speed);
-            // double yaw = this->m_model->RelativePose().Rot().Yaw();
-            // double angle_diff = fmod((speedYaw - yaw + M_PI), (2 * M_PI)) - M_PI;
-            // if (fabs(angle_diff) > 3 * M_PI / 4)
-            // {
-            //     speed *= -1;
-            // }
-            // this->m_encoder_msg.speed = speed;
-            // this->m_pubEncoder.publish(this->m_encoder_msg);
-        };      
-    }; 
-    GZ_REGISTER_MODEL_PLUGIN(bno055::BNO055)
-};
+      // Angular velocity + noise
+      auto w = m_model->WorldAngularVel();
+      m_imu_msg.angular_velocity.x = w.X() + distG(gen);
+      m_imu_msg.angular_velocity.y = w.Y() + distG(gen);
+      m_imu_msg.angular_velocity.z = w.Z() + distG(gen);
+      m_imu_msg.angular_velocity_covariance = {
+        ANGVEL_NOISE_VAR, 0, 0,
+        0, ANGVEL_NOISE_VAR, 0,
+        0, 0, ANGVEL_NOISE_VAR
+      };
+
+      // Linear acceleration: derivative of velocity + noise
+      ros::Time now = ros::Time::now();
+      double dt = (now - prev_time).toSec();
+      auto v  = m_model->WorldLinearVel();
+      auto a  = (v - prev_linear_velocity) / (dt > 0 ? dt : 1e-6);
+      prev_linear_velocity = v;
+      prev_time            = now;
+      m_imu_msg.linear_acceleration.x = a.X() + distA(gen);
+      m_imu_msg.linear_acceleration.y = a.Y() + distA(gen);
+      m_imu_msg.linear_acceleration.z = a.Z() + distA(gen);
+      m_imu_msg.linear_acceleration_covariance = {
+        LINACC_NOISE_VAR, 0, 0,
+        0, LINACC_NOISE_VAR, 0,
+        0, 0, LINACC_NOISE_VAR
+      };
+      m_pubIMU.publish(m_imu_msg);
+
+      m_encoder_msg.header.stamp    = ros::Time::now();
+      m_encoder_msg.header.frame_id = "encoder";
+
+      double x_speed = v.X();
+      double y_speed = v.Y();
+      double speedYaw = std::atan2(y_speed, x_speed);
+      double speed = std::sqrt(x_speed*x_speed + y_speed*y_speed);
+
+      double yaw = rot.Yaw();
+      double angle_diff = std::fmod((speedYaw - yaw + M_PI), (2*M_PI)) - M_PI;
+      if (std::fabs(angle_diff) > 3*M_PI/4)
+      {
+        speed *= -1;  // traveling backwards
+      }
+
+      std::normal_distribution<double> distE(0.0, ENCODER_SPEED_NOISE_STD);
+      m_encoder_msg.speed = speed + distE(gen);
+      m_pubEncoder.publish(m_encoder_msg);
+    }
+
+  } // namespace bno055
+  GZ_REGISTER_MODEL_PLUGIN(bno055::BNO055)
+}
