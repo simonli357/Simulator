@@ -124,7 +124,7 @@
       <sensor name="color" type="camera">
         <pose frame="">0 -0.046 0.004 3.14159 0 0</pose>
         <camera name="__default__">
-          <horizontal_fov>1.047</horizontal_fov>
+          <horizontal_fov>0.96976</horizontal_fov>
           <image>
             <width>640</width>
             <height>480</height>
