@@ -29,13 +29,13 @@
     args  = "-file $(find models_pkg)/rcCar_assembly1_laser/model.sdf -model car1 -sdf -x $(arg x_init) -y $(arg y_init) -z 0.0 -Y 0.00">
   </node>
 
-  <!-- <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro'" />
+  <!-- <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro'" /> -->
 
-  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model racecar -z 0.05" />
-  <include file="$(find racecar_control)/launch/racecar_control.launch" ns="/"/>
-  <include file="$(find racecar_control)/launch/mux.launch" ns="vesc" />
+  <!-- <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model racecar -z 0.05" /> -->
+  <!-- <include file="$(find racecar_control)/launch/racecar_control.launch" ns="/"/> -->
+  <!-- <include file="$(find racecar_control)/launch/mux.launch" ns="vesc" /> -->
 
-  <node pkg="racecar_control" name="pid_error_node" type="pid_error.py" output="screen"/>
-  <node pkg="racecar_control" name="control_node" type="control.py" output="screen"/>
-  <node pkg="racecar_control" name="sim_connector_node" type="sim_connector.py" output="screen"/> -->
+  <!-- <node pkg="racecar_control" name="pid_error_node" type="pid_error.py" output="screen"/> -->
+  <!-- <node pkg="racecar_control" name="control_node" type="control.py" output="screen"/> -->
+  <!-- <node pkg="racecar_control" name="sim_connector_node" type="sim_connector.py" output="screen"/> -->
   </launch>

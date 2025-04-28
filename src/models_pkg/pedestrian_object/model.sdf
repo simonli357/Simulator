@@ -23,8 +23,8 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://pedestrian_object/meshes/pedestrian_object.dae</uri>
-            <scale>1 1 1</scale>
+            <uri>model://pedestrian_object/meshes/girl.dae</uri>
+            <scale>0.1 0.1 0.1</scale>
           </mesh>
         </geometry>
         <material>
@@ -51,8 +51,8 @@
         <pose frame=''>0 0 0 0 -0 0</pose>
         <geometry>
           <mesh>
-            <uri>model://pedestrian_object/meshes/pedestrian_object.dae</uri>
-            <scale>1 1 1</scale>
+            <uri>model://pedestrian_object/meshes/girl.dae</uri>
+            <scale>0.1 0.1 0.1</scale>
           </mesh>
         </geometry>
         <surface>
