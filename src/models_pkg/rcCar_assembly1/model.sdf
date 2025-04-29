@@ -346,6 +346,9 @@
     <plugin name='gps' filename='libgps_plugin.so'> 
       <rosTopicNamespace>car1</rosTopicNamespace>
     </plugin>
+    <plugin name='car_tp_plugin' filename='libcar_tp_plugin.so'> 
+      <rosTopicNamespace>car1</rosTopicNamespace>
+    </plugin>
     
   </model>
 </sdf>
