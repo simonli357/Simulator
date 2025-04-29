@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.6'>
-  <model name='car2'>
+  <model name='car6'>
     <include>
       <uri>model://chassis</uri>
       <pose>0 0 0 0 0 0</pose>
@@ -308,7 +308,7 @@
 
     <!-- Plugin  -->
     <plugin name='CarLikeRobotPlugin' filename='libcar_plugin.so'>
-      <robotNamespace>car2</robotNamespace>
+      <robotNamespace>car6</robotNamespace>
       <wheelbase>0.26</wheelbase>
       <axletrack>0.162</axletrack>
       <wheelradius>0.0325</wheelradius>
@@ -338,7 +338,7 @@
     </plugin>
 
     <plugin name='car_tp_plugin' filename='libcar_tp_plugin.so'> 
-      <rosTopicNamespace>car2</rosTopicNamespace>
+      <rosTopicNamespace>car6</rosTopicNamespace>
     </plugin>
     
   </model>
