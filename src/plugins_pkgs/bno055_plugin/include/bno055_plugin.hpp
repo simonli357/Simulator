@@ -10,6 +10,7 @@
 #include "utils/IMU.h"
 #include "utils/encoder.h"
 #include "sensor_msgs/Imu.h"
+#include <deque>
 
 namespace gazebo
 {
@@ -30,6 +31,8 @@ namespace gazebo
         sensor_msgs::Imu          m_imu_msg;
         utils::IMU                m_bno055_pose;
         utils::encoder            m_encoder_msg;
+        std::deque<std::pair<ros::Time, double>> encoder_buffer;  // (stamp, speed)
+        const ros::Duration       encoder_lag{0.2}; 
 
         ignition::math::Vector3d  prev_linear_velocity;
         ros::Time                 prev_time;

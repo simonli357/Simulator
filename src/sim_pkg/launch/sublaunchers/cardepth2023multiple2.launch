@@ -3,12 +3,12 @@
   <launch>
  
     <!-- <rosparam command="load" file="$(find mpc)/config/gps_config.yaml" /> -->
-      <!-- <node
+      <node
         name  = "automobile"
         pkg   = "gazebo_ros"
         type  = "spawn_model"
         args  = "-file $(find models_pkg)/rcCar_assembly_depth/model.sdf -model automobile -sdf -x 11.71 -y 1.896 -z 0.032939 -Y 0.00">
-      </node> -->
+      </node>
       <node
         name  = "car1"
         pkg   = "gazebo_ros"

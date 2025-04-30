@@ -133,7 +133,25 @@ namespace gazebo
       }
 
       std::normal_distribution<double> distE(0.0, ENCODER_SPEED_NOISE_STD);
-      m_encoder_msg.speed = speed + distE(gen);
+      double noisy_speed = speed + distE(gen);
+      encoder_buffer.emplace_back(now, noisy_speed);
+      ros::Time prune_before = now - encoder_lag - ros::Duration(1.0);
+      while (!encoder_buffer.empty() && encoder_buffer.front().first < prune_before) {
+        encoder_buffer.pop_front();
+      }
+      ros::Time target = now - encoder_lag;
+      double lagged_speed = noisy_speed;
+      for (auto &entry : encoder_buffer) {
+        if (entry.first <= target) {
+          lagged_speed = entry.second;
+        }
+        else {
+          break;
+        }
+      }
+      m_encoder_msg.header.stamp = now;
+      m_encoder_msg.header.frame_id = "encoder";
+      m_encoder_msg.speed           = lagged_speed;
       m_pubEncoder.publish(m_encoder_msg);
     }
 
