@@ -12,7 +12,7 @@ namespace gazebo
     constexpr double ORIENTATION_NOISE_STD = 0.0624524 * M_PI / 180.0 * EXAGGERATION_FACTOR;   // rad  (0.0625° resolution)
     constexpr double ANGVEL_NOISE_STD      = 0.1002676 * M_PI / 180.0 * EXAGGERATION_FACTOR;   // rad/s (≈0.1°/s RMS)
     constexpr double LINACC_NOISE_STD      = 0.0104 * EXAGGERATION_FACTOR;    // m/s²  (150 μg/√Hz @~50Hz BW)
-    constexpr double ENCODER_SPEED_NOISE_STD = 0.01047; // m/s (≈1 cm/s RMS)
+    constexpr double ENCODER_SPEED_NOISE_STD = 0.01047 * EXAGGERATION_FACTOR; // m/s (≈1 cm/s RMS)
 
     constexpr double ORIENTATION_NOISE_VAR = ORIENTATION_NOISE_STD * ORIENTATION_NOISE_STD;
     constexpr double ANGVEL_NOISE_VAR      = ANGVEL_NOISE_STD      * ANGVEL_NOISE_STD;
@@ -126,10 +126,17 @@ namespace gazebo
       double speed = std::sqrt(x_speed*x_speed + y_speed*y_speed);
 
       double yaw = rot.Yaw();
-      double angle_diff = std::fmod((speedYaw - yaw + M_PI), (2*M_PI)) - M_PI;
-      if (std::fabs(angle_diff) > 3*M_PI/4)
-      {
-        speed *= -1;  // traveling backwards
+      // double angle_diff = speedYaw - yaw;
+      // while(angle_diff > M_PI) angle_diff -= 2*M_PI;
+      // while(angle_diff < -M_PI) angle_diff += 2*M_PI;
+      // if (std::fabs(angle_diff) > 3*M_PI/4)
+      // {
+      //   speed *= -1;  // traveling backwards
+      // }
+      double forward_component = x_speed * std::cos(yaw) + y_speed * std::sin(yaw);
+      const double threshold = 0.02;
+      if (forward_component < -threshold) {
+        speed = -speed;
       }
 
       std::normal_distribution<double> distE(0.0, ENCODER_SPEED_NOISE_STD);
