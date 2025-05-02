@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <sdf version="1.5">
 <model name="car_polo">
-  <pose>4.5 2 0 0 0 3.14</pose>
+  <pose>4.5 2 0 0 0 1.5708</pose>
   <static>true</static>
     <link name="link">
       <inertial>
@@ -19,15 +19,16 @@
       <collision name="collision">
         <geometry>
           <box>
-            <size>0.004 0.004 0.004</size>
+            <size>0.5 0.22 0.2</size>
           </box>
         </geometry>
       </collision>
       <visual name="visual">
+        <pose>0.22 -0.095 0 0 0 1.5708</pose>
         <geometry>
           <mesh>
             <uri>model://car_polo/meshes/Polo.dae</uri>
-      	    <scale>0.004 0.004 0.004</scale>
+      	    <scale>0.0045 0.0045 0.0045</scale>
           </mesh>
         </geometry>
       </visual>

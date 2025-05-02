@@ -1,7 +1,7 @@
 <?xml version='1.0'?>
 <sdf version="1.5">
 <model name="car_beetle">
-  <pose>4 0 0 0 0 3.14</pose>
+  <pose>4 0 00.0668 0 0 3.14</pose>
   <static>true</static>
     <link name="link">
       <inertial>
@@ -19,15 +19,16 @@
       <collision name="collision">
         <geometry>
           <box>
-            <size>0.1 0.1 0.1</size>
+            <size>0.5 0.21 0.2</size>
           </box>
         </geometry>
       </collision>
       <visual name="visual">
+        <pose>0. -0.04 0 0 0 1.5708</pose> <!-- Also shift mesh back -->
         <geometry>
           <mesh>
             <uri>model://car_beetle/meshes/beetle.dae</uri>
-            <scale>0.1 0.1 0.1</scale>
+            <scale>0.14 0.14 0.14</scale>
           </mesh>
         </geometry>
       </visual>
