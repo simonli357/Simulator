@@ -35,5 +35,9 @@
       </geometry>
     </visual>
   </link>
+
+  <plugin name='car_tp_plugin' filename='libcar_tp_plugin.so'> 
+    <rosTopicNamespace>car_046</rosTopicNamespace>
+  </plugin>
 </model>
 </sdf>
