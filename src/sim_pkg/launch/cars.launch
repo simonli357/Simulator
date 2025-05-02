@@ -26,6 +26,13 @@
   <node pkg="sim_pkg" type="delay.sh" args="5 sim_pkg spawn_signs.launch"      name="signs"       output="screen"/>
 
   <node
+    name  = "pedestrian_object"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/pedestrian_object/model.sdf -model pedestrian_object -sdf -x 0 -y 0 -z -1 -Y 0">
+  </node>
+
+  <node
     name  = "car1"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
@@ -36,49 +43,49 @@
     name  = "car2"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly2/model.sdf -model car2 -sdf -x 0 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly2/model.sdf -model car2 -sdf -x 0 -y 0 -z -2 -Y 0">
   </node>
 
   <node
     name  = "car3"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly3/model.sdf -model car3 -sdf -x 1 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly3/model.sdf -model car3 -sdf -x 1 -y 0 -z -2 -Y 0">
   </node>
 
   <node
     name  = "car4"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly4/model.sdf -model car4 -sdf -x 2 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly4/model.sdf -model car4 -sdf -x 2 -y 0 -z -2 -Y 0">
   </node>
 
   <node
     name  = "car5"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly5/model.sdf -model car5 -sdf -x 3 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly5/model.sdf -model car5 -sdf -x 3 -y 0 -z -2 -Y 0">
   </node>
 
   <node
     name  = "car6"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly6/model.sdf -model car6 -sdf -x 4 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly6/model.sdf -model car6 -sdf -x 4 -y 0 -z -2 -Y 0">
   </node>
 
   <node
     name  = "car7"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly7/model.sdf -model car7 -sdf -x 5 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly7/model.sdf -model car7 -sdf -x 5 -y 0 -z -2 -Y 0">
   </node>
 
   <node
     name  = "car8"
     pkg   = "gazebo_ros"
     type  = "spawn_model"
-    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly8/model.sdf -model car8 -sdf -x 6 -y 0 -z 0 -Y 0">
+    args  = "-file $(find models_pkg)/rcCars/rcCar_assembly8/model.sdf -model car8 -sdf -x 6 -y 0 -z -2 -Y 0">
   </node>
 
   </launch>

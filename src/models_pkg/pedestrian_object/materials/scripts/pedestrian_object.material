@@ -9,7 +9,7 @@ material PEDESTRIAN_OBJECT
       
       texture_unit
 			{
-				texture girl.png
+				texture pedestrian_object.png
 			}
     }
   }
