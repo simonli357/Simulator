@@ -37,5 +37,9 @@
     </visual>
 
     </link>
+
+    <plugin name='car_tp_plugin' filename='libcar_tp_plugin.so'> 
+      <rosTopicNamespace>car_opel</rosTopicNamespace>
+    </plugin>
   </model>
 </sdf>

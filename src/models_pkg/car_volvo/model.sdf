@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version="1.5">
-<model name="car_volvo_c30">
+<model name="car_volvo">
   <pose>4 1 0.0668 0 0 0</pose>
   <static>true</static>
     <link name="link">
@@ -34,5 +34,9 @@
         </geometry>
       </visual>
     </link>
+
+    <plugin name='car_tp_plugin' filename='libcar_tp_plugin.so'> 
+      <rosTopicNamespace>car_volvo</rosTopicNamespace>
+    </plugin>
   </model>
 </sdf>
