@@ -24,7 +24,7 @@
         <geometry>
           <mesh>
             <uri>model://separator/meshes/separator.dae</uri>
-            <scale>1 1 1</scale>
+            <scale>3.5 3.5 3.5</scale>
           </mesh>
         </geometry>
         <material>
@@ -51,7 +51,7 @@
         <geometry>
           <mesh>
             <uri>model://separator/meshes/separator.dae</uri>
-            <scale>1 1 1</scale>
+            <scale>3.5 3.5 3.5</scale>
           </mesh>
         </geometry>
         <surface>
