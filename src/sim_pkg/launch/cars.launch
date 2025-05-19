@@ -46,61 +46,61 @@
     args  = "-file $(find models_pkg)/car_008/model.sdf -model car_008 -sdf -x 1 -y 0 -z -1 -Y 0">
   </node>
 
-  <!-- <node -->
-  <!--   name  = "car_019" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_019/model.sdf -model car_019 -sdf -x 2 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_019"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_019/model.sdf -model car_019 -sdf -x 2 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_046" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_046/model.sdf -model car_046 -sdf -x 3 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_046"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_046/model.sdf -model car_046 -sdf -x 3 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_144" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_144/model.sdf -model car_144 -sdf -x 4 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_144"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_144/model.sdf -model car_144 -sdf -x 4 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_beetle" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_beetle/model.sdf -model car_beetle -sdf -x 5 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_beetle"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_beetle/model.sdf -model car_beetle -sdf -x 5 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_lexus" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_lexus/model.sdf -model car_lexus -sdf -x 6 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_lexus"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_lexus/model.sdf -model car_lexus -sdf -x 6 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_opel" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_opel/model.sdf -model car_opel -sdf -x 7 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_opel"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_opel/model.sdf -model car_opel -sdf -x 7 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_polo" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_polo/model.sdf -model car_polo -sdf -x 8 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_polo"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_polo/model.sdf -model car_polo -sdf -x 8 -y 0 -z -1 -Y 0">
+  </node>
 
-  <!-- <node -->
-  <!--   name  = "car_volvo" -->
-  <!--   pkg   = "gazebo_ros" -->
-  <!--   type  = "spawn_model" -->
-  <!--   args  = "-file $(find models_pkg)/car_volvo/model.sdf -model car_volvo -sdf -x 9 -y 0 -z -1 -Y 0"> -->
-  <!-- </node> -->
+  <node
+    name  = "car_volvo"
+    pkg   = "gazebo_ros"
+    type  = "spawn_model"
+    args  = "-file $(find models_pkg)/car_volvo/model.sdf -model car_volvo -sdf -x 9 -y 0 -z -1 -Y 0">
+  </node>
 
   <node name="seperator0" pkg="gazebo_ros" type="spawn_model" 
     args="-file $(find models_pkg)/separator/model.sdf -model separator0 -sdf 
