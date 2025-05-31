@@ -62,8 +62,7 @@ namespace gazebo
       auto rot = m_model->RelativePose().Rot();
       m_bno055_pose.roll  = rot.Roll();
       m_bno055_pose.pitch = rot.Pitch();
-      drift += (5 * M_PI / 180) / 60 / 10;
-      m_bno055_pose.yaw   = rot.Yaw() + drift;
+      m_bno055_pose.yaw   = rot.Yaw();
       m_pubBNO.publish(m_bno055_pose);
 
       // 2) Fill standard Imu message with fused data + noise
@@ -78,11 +77,16 @@ namespace gazebo
       m_imu_msg.header.frame_id = "chassis";
 
       // Orientation (quaternion) + noise
-      auto q = rot;  // using same Rot() for quat (X,Y,Z,W)
-      m_imu_msg.orientation.x = q.X() + distO(gen);
-      m_imu_msg.orientation.y = q.Y() + distO(gen);
-      m_imu_msg.orientation.z = q.Z() + distO(gen);
-      m_imu_msg.orientation.w = q.W() + distO(gen);
+      drift += (50 * M_PI / 180) / 60 / 10;
+      ignition::math::Quaterniond q_drift(0, 0, drift);
+      ignition::math::Quaterniond rot = m_model->RelativePose().Rot();
+      ignition::math::Quaterniond rot_drifted = rot * q_drift;
+
+      // auto q = rot;  // using same Rot() for quat (X,Y,Z,W)
+      m_imu_msg.orientation.x = rot_drifted.X() + distO(gen);
+      m_imu_msg.orientation.y = rot_drifted.Y() + distO(gen);
+      m_imu_msg.orientation.z = rot_drifted.Z() + distO(gen);
+      m_imu_msg.orientation.w = rot_drifted.W() + distO(gen);
       m_imu_msg.orientation_covariance = {
         ORIENTATION_NOISE_VAR, 0, 0,
         0, ORIENTATION_NOISE_VAR, 0,
