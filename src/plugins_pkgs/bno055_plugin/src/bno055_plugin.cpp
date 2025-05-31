@@ -63,7 +63,7 @@ namespace gazebo
       auto rot = m_model->RelativePose().Rot();
       m_bno055_pose.roll  = rot.Roll();
       m_bno055_pose.pitch = rot.Pitch();
-      m_bno055_pose.yaw   = rot.Yaw();
+      m_bno055_pose.yaw   = rot.Yaw() + (5 * M_PI / 180) / 60 / 10;
       m_pubBNO.publish(m_bno055_pose);
 
       // 2) Fill standard Imu message with fused data + noise
