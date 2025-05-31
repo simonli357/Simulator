@@ -76,17 +76,27 @@ namespace gazebo
       m_imu_msg.header.stamp    = ros::Time::now();
       m_imu_msg.header.frame_id = "chassis";
 
+      auto v  = m_model->WorldLinearVel();
+      double x_speed = v.X();
+      double y_speed = v.Y();
+      double speedYaw = std::atan2(y_speed, x_speed);
+      double speed = std::sqrt(x_speed*x_speed + y_speed*y_speed);
+
       // Orientation (quaternion) + noise
-      drift += (50 * M_PI / 180) / 60 / 10;
-      ignition::math::Quaterniond q_drift(0, 0, drift);
-      ignition::math::Quaterniond rot = m_model->RelativePose().Rot();
-      ignition::math::Quaterniond rot_drifted = rot * q_drift;
+      drift += (5 * M_PI / 180) / 60 / 10;
+      double drift_yaw;
+      if (std::abs(speed) < 0.03) {
+          drift_yaw = rot.Yaw();
+      } else {
+          drift_yaw = rot.Yaw() + drift;
+      }
+      ignition::math::Quaterniond drift_q(0.0, 0.0, drift_yaw);
 
       // auto q = rot;  // using same Rot() for quat (X,Y,Z,W)
-      m_imu_msg.orientation.x = rot_drifted.X() + distO(gen);
-      m_imu_msg.orientation.y = rot_drifted.Y() + distO(gen);
-      m_imu_msg.orientation.z = rot_drifted.Z() + distO(gen);
-      m_imu_msg.orientation.w = rot_drifted.W() + distO(gen);
+      m_imu_msg.orientation.x = drift_q.X() + distO(gen);
+      m_imu_msg.orientation.y = drift_q.Y() + distO(gen);
+      m_imu_msg.orientation.z = drift_q.Z() + distO(gen);
+      m_imu_msg.orientation.w = drift_q.W() + distO(gen);
       m_imu_msg.orientation_covariance = {
         ORIENTATION_NOISE_VAR, 0, 0,
         0, ORIENTATION_NOISE_VAR, 0,
@@ -107,7 +117,6 @@ namespace gazebo
       // Linear acceleration: derivative of velocity + noise
       ros::Time now = ros::Time::now();
       double dt = (now - prev_time).toSec();
-      auto v  = m_model->WorldLinearVel();
       auto a  = (v - prev_linear_velocity) / (dt > 0 ? dt : 1e-6);
       prev_linear_velocity = v;
       prev_time            = now;
@@ -124,10 +133,6 @@ namespace gazebo
       m_encoder_msg.header.stamp    = ros::Time::now();
       m_encoder_msg.header.frame_id = "encoder";
 
-      double x_speed = v.X();
-      double y_speed = v.Y();
-      double speedYaw = std::atan2(y_speed, x_speed);
-      double speed = std::sqrt(x_speed*x_speed + y_speed*y_speed);
 
       double yaw = rot.Yaw();
       // double angle_diff = speedYaw - yaw;
