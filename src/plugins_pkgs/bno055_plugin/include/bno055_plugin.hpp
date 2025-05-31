@@ -37,6 +37,8 @@ namespace gazebo
         ignition::math::Vector3d  prev_linear_velocity;
         ros::Time                 prev_time;
 
+        double drift = 0.0;
+
       public:
         BNO055();
         void Load(physics::ModelPtr model_ptr, sdf::ElementPtr sdf_ptr) override;
