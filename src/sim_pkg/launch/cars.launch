@@ -12,6 +12,8 @@
   </include>
   
   <include file="$(find sim_pkg)/launch/sublaunchers/ramp.launch"></include>
+  <include file="$(find sim_pkg)/launch/sublaunchers/separators.launch"></include>
+  <include file="$(find sim_pkg)/launch/sublaunchers/separators.launch"></include>
 
   <arg name="x_init" default="2.88"/>
   <param name="x_init" value="$(arg x_init)"/>
@@ -102,68 +104,6 @@
     args  = "-file $(find models_pkg)/car_volvo/model.sdf -model car_volvo -sdf -x 9 -y 0 -z -1 -Y 0">
   </node>
 
-  <node name="seperator0" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator0 -sdf 
-    -x 6.766862869262695 -y 11.995134353637695 -z 0 -Y -1.5882"/>
-
-  <node name="seperator1" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator1 -sdf 
-    -x 7.25848388671875 -y 11.993330001831055 -z 0 -Y -1.5708"/>
-
-  <node name="seperator2" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator2 -sdf 
-    -x 7.749112129211426 -y 11.995311737060547 -z 0 -Y -1.5708"/>
-
-  <node name="seperator3" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator3 -sdf 
-    -x 8.23953628540039 -y 11.990684509277344 -z 0 -Y -1.7190"/>
-
-  <node name="seperator4" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator4 -sdf 
-    -x 8.730366706848145 -y 11.943814277648926 -z 0 -Y -1.8612"/>
-
-  <node name="seperator5" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator5 -sdf 
-    -x 9.207830429077148 -y 11.835541725158691 -z 0 -Y -2.0340"/>
-
-  <node name="seperator6" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator6 -sdf 
-    -x 9.66402530670166 -y 11.645753860473633 -z 0 -Y -2.0944"/>
-
-  <node name="seperator7" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator7 -sdf 
-    -x 10.097311973571777 -y 11.41085147857666 -z 0 -Y -2.0944"/>
-
-  <node name="seperator8" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator8 -sdf 
-    -x 10.526208877563477 -y 11.16561508178711 -z 0 -Y -2.0595"/>
-
-  <node name="seperator9" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator9 -sdf 
-    -x 10.958582878112793 -y 10.932111740112305 -z 0 -Y -1.9094"/>
-
-  <node name="seperator10" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator10 -sdf 
-    -x 11.413477897644043 -y 10.745676040649414 -z 0 -Y -1.7034"/>
-
-  <node name="seperator11" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator11 -sdf 
-    -x 11.890427589416504 -y 10.640175819396973 -z 0 -Y -1.5708"/>
-
-  <node name="seperator12" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator12 -sdf 
-    -x 12.38198471069336 -y 10.603184700012207 -z 0 -Y -1.5708"/>
-
-  <node name="seperator13" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator13 -sdf 
-    -x 12.8734 -y 10.5934 -z 0 -Y -1.5708"/>
-
-  <node name="seperator14" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator14 -sdf 
-    -x 13.362000465393066 -y 10.589799880981445 -z 0 -Y -1.5708"/>
-
-  <node name="seperator15" pkg="gazebo_ros" type="spawn_model" 
-    args="-file $(find models_pkg)/separator/model.sdf -model separator15 -sdf 
-    -x 13.844159126281738 -y 10.593681335449219 -z 0 -Y -1.5882"/>
+  
 
   </launch>

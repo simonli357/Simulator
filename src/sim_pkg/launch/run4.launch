@@ -12,6 +12,7 @@
   </include>
   
   <include file="$(find sim_pkg)/launch/sublaunchers/ramp.launch"></include>
+  <include file="$(find sim_pkg)/launch/sublaunchers/separators.launch"></include>
 
   <arg name="x_init" default="1.556812"/>
   <param name="x_init" value="$(arg x_init)"/>

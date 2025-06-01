@@ -51,7 +51,7 @@
       <uri>model://camera</uri>
       <!-- centered around camera center -->
       <!-- subtract 0.033 from z -->
-      <pose>-0.08255 -0.032 0.2285 3.14159 0.06545 -0.</pose>
+      <pose>-0.08255 -0.032 0.224 3.14159 0.0322886 0.036652</pose>
       <!-- <pose>-0.113 0.0 0.2573 0.0 0.0 -0.</pose> -->
       <name>camera1</name>
     </include>

@@ -48,7 +48,6 @@ namespace gazebo
       this->m_pubIMU = this->m_ros_node->advertise<sensor_msgs::Imu>(ns + "/imu", 2);
       this->m_pubEncoder = this->m_ros_node->advertise<utils::encoder>(ns + "/encoder", 2);
 
-      // Schedule updates at 50 Hz (20 ms)
       double updateRate = 10.0;
       nh    = boost::make_shared<ros::NodeHandle>();
       timer = nh->createTimer(ros::Duration(1.0/updateRate),
