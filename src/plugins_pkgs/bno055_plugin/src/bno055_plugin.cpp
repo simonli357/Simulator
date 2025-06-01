@@ -83,11 +83,11 @@ namespace gazebo
       double speed = std::sqrt(x_speed*x_speed + y_speed*y_speed);
 
       // Orientation (quaternion) + noise
-      drift += (5 * M_PI / 180) / 60 / 10;
       double drift_yaw;
       if (std::abs(speed) < 0.03) {
           drift_yaw = rot.Yaw();
       } else {
+          drift += (5 * M_PI / 180) / 60 / 10;
           drift_yaw = rot.Yaw() + drift;
       }
       ignition::math::Quaterniond drift_q(0.0, 0.0, drift_yaw);
